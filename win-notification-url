@@ -1,0 +1,1 @@
+http://www.vanilla-rtb.com/win/details?price=${AUCTION_PRICE}&BidResponse.seatbid.bid.impid=${AUCTION_IMP_ID}&BidRequest.id=${AUCTION_ID}&currency=${AUCTION_CURRENCY}&BidResponse.bidid=${AUCTION_BID_ID}
