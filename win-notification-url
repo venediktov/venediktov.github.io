@@ -11,6 +11,10 @@ BidResponse.seatbid.bid.impid , BidRequest.id
 Banker-transaction-service with DB or persisted-cache:
 
 Key = { BidResponse.seatbid.bid.impid , BidRequest.id, timestamp}
+
+search-index1 = {BidResponse.seatbid.bid.impid , BidRequest.id}
+search-index2 = {timestamp} >= comparator
+
 Key => {account}
 
 - account gets updated on notification by Banker-transaction-service 
