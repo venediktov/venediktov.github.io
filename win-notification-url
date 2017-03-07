@@ -1,0 +1,30 @@
+http://www.vanilla-rtb.com/win/details?price=${AUCTION_PRICE}&BidResponse.seatbid.bid.impid=${AUCTION_IMP_ID}&BidRequest.id=${AUCTION_ID}&currency=${AUCTION_CURRENCY}&BidResponse.bidid=${AUCTION_BID_ID}
+
+Need to create mapping from Win resonse into internal data cache for lookups , 
+to find corresponding BidResponse to be able to finish transaction in the banker.
+
+URL Key = {BidResponse.seatbid.bid.impid , BidRequest.id }
+
+but internal key can be BidResponse structure in memory  indexed on  
+BidResponse.seatbid.bid.impid , BidRequest.id
+
+Banker-transaction-service with DB or persisted-cache:
+
+Key = { BidResponse.seatbid.bid.impid , BidRequest.id, timestamp}
+
+search-index1 = {BidResponse.seatbid.bid.impid , BidRequest.id}
+search-index2 = {timestamp} >= comparator
+
+Key => {account}
+
+- account gets updated on notification by Banker-transaction-service 
+   a.) complete  withdrawal, subtract amount from pending bucket
+   b.) add transaction to audit table.
+   
+- account gets updated on expiration of timer ( testing timestamp field)
+  a.) completing transaction by funds rollback operation that were put on hold in pending bucket 
+  b.) add transaction to audit table
+
+Main question :
+- how many win notification will DSP receive say every 2-5 minutes , 100, 1000, 10000 ?
+- what number of bids are sending upstream ( back to exchange ) ?
