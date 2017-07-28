@@ -17,7 +17,7 @@ static std::vector<T> extract( boost::any & value ) {
     if ( value.empty() ) {
         return decoded_vector;
     }
-    auto encoded_vector = boost::any_cast<std::vector<boost::any>>(value);
+    auto &encoded_vector = boost::any_cast<std::vector<boost::any> &>(value);
     decoded_vector.reserve(encoded_vector.size());
     std::transform( std::begin(encoded_vector), 
                     std::end(encoded_vector), 
@@ -57,7 +57,7 @@ static openrtb::BidRequest<T> extract( boost::any & value ) {
     if ( value.empty() ) {
         return request;
     }
-    auto m = boost::any_cast<std::map<std::string , boost::any> &>(value);
+    auto &m = boost::any_cast<std::map<std::string , boost::any> &>(value);
     request.id   = boost::any_cast<decltype(request.id)>(m["id"]);
     request.imp  = extractors<decltype(request.imp)>::extract(m["imp"]);
     request.user = extractors<decltype(request.user)>::extract(m["user"]);
@@ -104,7 +104,7 @@ extractors<openrtb::Banner<T>>::extract( boost::any & value ) {
     if ( value.empty() ) {
         return banner;
     }
-    auto m = boost::any_cast<std::map<std::string , boost::any> &>(value);
+    auto &m = boost::any_cast<std::map<std::string , boost::any> &>(value);
     banner.h = boost::any_cast<decltype(banner.h)>(m["h"]);
     banner.w = boost::any_cast<decltype(banner.w)>(m["w"]);
     return banner;
